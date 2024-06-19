@@ -127,7 +127,7 @@ public class ApiConfig {
     }
 
     public void loadConfig(boolean useCache, LoadConfigCallback callback, Activity activity) {
-        String apiUrl = Hawk.get(HawkConfig.API_URL, "");
+        String apiUrl = Hawk.get(HawkConfig.API_URL, "https://hushujiang.github.io/tvbox.json");
         if (apiUrl.isEmpty()) {
             callback.error("-1");
             return;
@@ -502,7 +502,7 @@ public class ApiConfig {
         if(ijkCodes==null){
             ijkCodes = new ArrayList<>();
             boolean foundOldSelect = false;
-            String ijkCodec = Hawk.get(HawkConfig.IJK_CODEC, "");
+            String ijkCodec = Hawk.get(HawkConfig.IJK_CODEC, "硬解码");
             JsonArray ijkJsonArray = infoJson.has("ijk")?infoJson.get("ijk").getAsJsonArray():defaultJson.get("ijk").getAsJsonArray();
             for (JsonElement opt : ijkJsonArray) {
                 JsonObject obj = (JsonObject) opt;
