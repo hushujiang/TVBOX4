@@ -90,7 +90,7 @@ dependencies {
     implementation project(":player")
     implementation project(":quickjs")
 
-    implementation('org.xwalk:xwalk_shared_library:23.53.589.4') {
+    implementation('libs/xwalk_shared_library-23.53.589.4.aar') {
         exclude group: 'com.android.support'
     }
     implementation 'com.lzy.net:okgo:3.0.4'
