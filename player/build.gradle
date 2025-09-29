@@ -3,7 +3,8 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    namespace 'com.github.tvbox.osc.player' // 建议格式: 主包名.模块名
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 16
