@@ -57,6 +57,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     // 基础库
+    implementation 'net.sf.kxml:kxml2:2.3.0'
+    implementation 'xpp3:xpp3:1.1.4c'
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
