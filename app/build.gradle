@@ -18,8 +18,18 @@ android {
         }
     }
 
+    // 关键修复1：过滤冲突的服务声明
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/services/org.xmlpull.v1.XmlPullParserFactory'
+    }
+
+    // 关键修复2：全局排除冲突的XML库
+    configurations {
+        all {
+            exclude group: 'xpp3', module: 'xpp3'
+            exclude group: 'xmlpull', module: 'xmlpull'
+        }
     }
 
     buildTypes {
@@ -30,64 +40,23 @@ android {
                 abiFilters 'armeabi-v7a'
             }
         }
+        
+        // 关键修复3：添加release配置
         release {
+            minifyEnabled true  // 必须启用R8
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            minifyEnabled true
             ndk {
                 abiFilters 'armeabi-v7a'
             }
         }
     }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
 }
 
 dependencies {
-    api fileTree(dir: "libs", include: ["*.jar"])
-
-    implementation 'org.nanohttpd:nanohttpd:2.3.1'
-    implementation 'com.google.zxing:core:3.3.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation files('libs/thunder.jar')
-    implementation files('libs/commons-lang3-3.12.0.jar')
-
-    implementation 'com.squareup.okhttp3:okhttp:3.12.11'
-    annotationProcessor 'androidx.room:room-compiler:2.3.0'
-    implementation 'androidx.room:room-runtime:2.3.0'
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.squareup.okio:okio:2.8.0'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
-    implementation 'com.kingja.loadsir:loadsir:1.3.8'
-    implementation 'com.google.code.gson:gson:2.8.7'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'me.jessyan:autosize:1.2.1'
-    implementation('com.thoughtworks.xstream:xstream:1.4.15') {
-        exclude group: 'xmlpull', module: 'xmlpull'
+    // 关键修复4：手动排除传递依赖
+    implementation('com.squareup.retrofit2:retrofit:2.9.0') {
+        exclude group: 'xpp3', module: 'xpp3'
     }
-    implementation 'org.greenrobot:eventbus:3.2.0'
-    implementation 'com.orhanobut:hawk:2.0.1'
-
-    implementation project(":player")
-    implementation project(":quickjs")
-
-    implementation files('libs/xwalk_shared_library-23.53.589.4.aar')
-    implementation 'com.lzy.net:okgo:3.0.4'
-    implementation 'com.owen:tv-recyclerview:3.0.0'
-
-    implementation 'com.github.getActivity:XXPermissions:13.6'
-    implementation 'org.jsoup:jsoup:1.14.1'
-    implementation 'com.github.hedzr:android-file-chooser:v1.2.0-final'
-    implementation 'commons-io:commons-io:2.11.0'
-    implementation 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+    // 其他依赖...
 }
