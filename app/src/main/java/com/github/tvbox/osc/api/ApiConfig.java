@@ -127,7 +127,7 @@ public class ApiConfig {
     }
 
     public void loadConfig(boolean useCache, LoadConfigCallback callback, Activity activity) {
-        String apiUrl = Hawk.get(HawkConfig.API_URL, "https://hushujiang.github.io/tvbox.json");
+        String apiUrl = Hawk.get(HawkConfig.API_URL, "");
         if (apiUrl.isEmpty()) {
             callback.error("-1");
             return;
@@ -156,10 +156,11 @@ public class ApiConfig {
         } else if (apiUrl.startsWith("clan")) {
             configUrl = clanToAddress(apiUrl);
         } else if (!apiUrl.startsWith("http")) {
-            configUrl = "http://" + configUrl;
+            configUrl = "http://" + apiUrl;
         } else {
             configUrl = apiUrl;
         }
+
         String configKey = TempKey;
         OkGo.<String>get(configUrl)
                 .headers("User-Agent", userAgent)
@@ -660,7 +661,7 @@ public class ApiConfig {
     }
 
     public IJKCode getCurrentIJKCode() {
-        String codeName = Hawk.get(HawkConfig.IJK_CODEC, "");
+        String codeName = Hawk.get(HawkConfig.IJK_CODEC, "硬解码");
         return getIJKCodec(codeName);
     }
 

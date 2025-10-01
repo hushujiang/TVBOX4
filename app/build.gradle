@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace 'com.github.tvbox.osc' // 替换为您的应用包名
+    namespace 'com.github.tvbox.osc'
     compileSdkVersion 35
 
     defaultConfig {
@@ -11,7 +11,6 @@ android {
         versionCode 1
         versionName '1.0.0'
         multiDexEnabled true
-        //设置room的Schema的位置
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
@@ -27,7 +26,6 @@ android {
         debug {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
-
             ndk {
                 abiFilters 'armeabi-v7a'
             }
@@ -35,7 +33,6 @@ android {
         release {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled true
-
             ndk {
                 abiFilters 'armeabi-v7a'
             }
@@ -51,17 +48,10 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
-    dexOptions {
-        javaMaxHeapSize "4g"
-        additionalParameters += '--multi-dex'
-        additionalParameters += '--set-max-idx-number=48000'
-        additionalParameters += '--minimal-main-dex'
-    }
 }
 
 dependencies {
     api fileTree(dir: "libs", include: ["*.jar"])
-
 
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'com.google.zxing:core:3.3.0'
@@ -93,7 +83,6 @@ dependencies {
 
     implementation files('libs/xwalk_shared_library-23.53.589.4.aar')
     implementation 'com.lzy.net:okgo:3.0.4'
-    // implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
     implementation 'com.owen:tv-recyclerview:3.0.0'
 
     implementation 'com.github.getActivity:XXPermissions:13.6'
