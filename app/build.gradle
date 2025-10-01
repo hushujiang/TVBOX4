@@ -19,7 +19,6 @@ android {
     }
 
     packagingOptions {
-        // 新增排除冲突的XML服务声明文件
         exclude 'META-INF/services/org.xmlpull.v1.XmlPullParserFactory'
         exclude 'META-INF/DEPENDENCIES'
     }
@@ -33,10 +32,10 @@ android {
             }
         }
         release {
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled true
-            // 添加R8规则避免XML解析冲突
-            proguardFile 'proguard-xmlpull.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 
+                'proguard-rules.pro',
+                'proguard-xstream.pro'  // 新增XStream专用规则
             ndk {
                 abiFilters 'armeabi-v7a'
             }
@@ -81,11 +80,12 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'me.jessyan:autosize:1.2.1'
     
-    // 修改点：显式声明xmlpull版本并排除冲突模块
-    implementation('com.thoughtworks.xstream:xstream:1.4.15') {
+    // XStream配置（关键修改点）
+    implementation('com.thoughtworks.xstream:xstream:1.4.20') {
         exclude group: 'xmlpull', module: 'xmlpull'
         exclude group: 'xpp3', module: 'xpp3_min'
     }
+    
     implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.orhanobut:hawk:2.0.1'
 
