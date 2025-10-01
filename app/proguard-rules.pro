@@ -18,11 +18,15 @@
 -keepattributes LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# XStream核心保留规则（新增部分）
--keep class com.thoughtworks.xstream.** { *; }
--keepclassmembers class * implements com.thoughtworks.xstream.converters.Converter {
-    *;
-}
+# 保留XML Pull Parser相关类
+-keep class org.kxml2.** { *; }
+-keep class org.xmlpull.** { *; }
+-dontwarn org.kxml2.**
+-dontwarn org.xmlpull.**
+
+# XStream核心保留（补充）
+-keep class com.thoughtworks.xstream.io.xml.** { *; }
+
 -keepattributes Signature, *Annotation*, EnclosingMethod
 -keep class com.thoughtworks.xstream.converters.extended.SubjectConverter { *; }
 -keep class com.thoughtworks.xstream.converters.extended.ThrowableConverter { *; }
