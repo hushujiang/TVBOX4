@@ -1,6 +1,5 @@
 package com.github.tvbox.osc.ui.adapter;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
@@ -21,11 +20,11 @@ public class LiveEpgAdapter extends BaseQuickAdapter<Epginfo, BaseViewHolder> {
     private int selectedEpgIndex = -1;
     private int focusedEpgIndex = -1;
     public static float fontSize = 20;
-    private final int defaultShiyiSelection = 0;
+    private int defaultShiyiSelection = 0;
     private boolean ShiyiSelection = false;
     private String shiyiDate = null;
-    private final String currentEpgDate = null;
-    private final int focusSelection = -1;
+    private String currentEpgDate = null;
+    private int focusSelection = -1;
     private boolean source_include_back = false;
 
     SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -37,7 +36,6 @@ public class LiveEpgAdapter extends BaseQuickAdapter<Epginfo, BaseViewHolder> {
         this.source_include_back = source_include_back;
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void convert(BaseViewHolder holder, Epginfo value) {
         TextView textview = holder.getView(R.id.tv_epg_name);
@@ -63,16 +61,17 @@ public class LiveEpgAdapter extends BaseQuickAdapter<Epginfo, BaseViewHolder> {
             shiyi.setTextColor(Color.WHITE);
             shiyi.setText("回看");
         } else if (new Date().compareTo(value.startdateTime) < 0) {
-            shiyi.setVisibility(View.GONE);
-//            shiyi.setBackgroundColor(Color.GRAY);
-//            shiyi.setTextColor(Color.BLACK);
-//            shiyi.setText("");
+            shiyi.setVisibility(View.VISIBLE);
+            shiyi.setBackgroundColor(Color.GRAY);
+            shiyi.setTextColor(Color.BLACK);
+            shiyi.setText("预约");
         } else {
             shiyi.setVisibility(View.GONE);
         }
         textview.setText(value.title);
         timeview.setText(value.start + "--" + value.end);
-        if (!ShiyiSelection) {
+        Log.e("roinlong", "getView: " + selectedEpgIndex);
+        if (ShiyiSelection == false) {
             Date now = new Date();
             if (now.compareTo(value.startdateTime) >= 0 && now.compareTo(value.enddateTime) <= 0) {
                 wqddg_AudioWaveView.setVisibility(View.VISIBLE);

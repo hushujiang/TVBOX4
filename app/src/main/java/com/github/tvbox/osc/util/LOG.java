@@ -8,7 +8,7 @@ import android.util.Log;
  * @description:
  */
 public class LOG {
-    private static String TAG = "TVBox-runtime";
+    private static String TAG = "TVBox";
 
     public static void e(String msg) {
         Log.e(TAG, "" + msg);

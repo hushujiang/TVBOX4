@@ -8,10 +8,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
-import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.bean.Movie;
-import com.github.tvbox.osc.bean.SourceBean;
 import com.github.tvbox.osc.bean.VodInfo;
 import com.github.tvbox.osc.cache.RoomDataManger;
 import com.github.tvbox.osc.event.RefreshEvent;
@@ -19,7 +17,6 @@ import com.github.tvbox.osc.ui.adapter.HistoryAdapter;
 import com.github.tvbox.osc.ui.dialog.ConfirmClearDialog;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.HawkConfig;
-import com.orhanobut.hawk.Hawk;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 
@@ -103,7 +100,7 @@ public class HistoryActivity extends BaseActivity {
 
             @Override
             public void onItemSelected(TvRecyclerView parent, View itemView, int position) {
-                itemView.animate().scaleX(1.05f).scaleY(1.05f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
+                itemView.animate().scaleX(1.1f).scaleY(1.1f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
             }
 
             @Override
@@ -126,18 +123,7 @@ public class HistoryActivity extends BaseActivity {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", vodInfo.id);
                         bundle.putString("sourceKey", vodInfo.sourceKey);
-                        SourceBean sourceBean = ApiConfig.get().getSource(vodInfo.sourceKey);
-                        if(sourceBean!=null){
-                            bundle.putString("picture", vodInfo.pic);
-                            jumpActivity(DetailActivity.class, bundle);
-                        }else {
-                            bundle.putString("title", vodInfo.name);
-                            if(Hawk.get(HawkConfig.FAST_SEARCH_MODE, false)){
-                                jumpActivity(FastSearchActivity.class, bundle);
-                            }else {
-                                jumpActivity(SearchActivity.class, bundle);
-                            }
-                        }
+                        jumpActivity(DetailActivity.class, bundle);
                     }
                 }
             }
@@ -145,6 +131,10 @@ public class HistoryActivity extends BaseActivity {
         historyAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+//                FastClickCheckUtil.check(view);
+//                VodInfo vodInfo = historyAdapter.getData().get(position);
+//                historyAdapter.remove(position);
+//                RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);
                 tvDelete.setFocusable(true);
                 toggleDelMode();
                 return true;

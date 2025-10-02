@@ -1,10 +1,11 @@
 package com.github.tvbox.osc.bean;
 
-import static com.github.tvbox.osc.util.RegexUtils.getPattern;
+import com.github.tvbox.osc.api.ApiConfig;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -83,39 +84,9 @@ public class VodInfo implements Serializable {
 
             seriesMap = new LinkedHashMap<>();
             for (VodSeriesFlag flag : seriesFlags) {
-                List<VodSeries> list = tempSeriesMap.get(flag.name);
-                assert list != null;
-                if(seriesFlags.size()<=5){
-                    if(isReverse(list))Collections.reverse(list);
-                }
-                seriesMap.put(flag.name, list);
+                seriesMap.put(flag.name, tempSeriesMap.get(flag.name));
             }
         }
-    }
-
-    private int extractNumber(String name) {
-        java.util.regex.Matcher matcher = getPattern("\\d+").matcher(name);
-        if (matcher.find()) {
-            return Integer.parseInt(matcher.group());
-        }
-        return 0;
-    }
-    private boolean isReverse(List<VodInfo.VodSeries> list) {
-        int ascCount = 0, descCount = 0;
-        // 比较最多前 6 个相邻元素对
-        int limit = Math.min(list.size() - 1, 6);
-        for (int i = 0; i < limit; i++) {
-            int current = extractNumber(list.get(i).name);
-            int next = extractNumber(list.get(i + 1).name);
-            if (current < next) {
-                ascCount++;
-                if (ascCount == 2) return false;
-            } else if (current > next) {
-                descCount++;
-                if (descCount == 2) return true;
-            }
-        }
-        return false;
     }
 
     public void reverse() {

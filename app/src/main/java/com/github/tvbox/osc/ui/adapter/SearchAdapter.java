@@ -10,7 +10,6 @@ import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.bean.Movie;
 import com.github.tvbox.osc.picasso.RoundTransformation;
 import com.github.tvbox.osc.util.HawkConfig;
-import com.github.tvbox.osc.util.ImgUtil;
 import com.github.tvbox.osc.util.MD5;
 import com.orhanobut.hawk.Hawk;
 import com.squareup.picasso.Picasso;
@@ -42,14 +41,14 @@ public class SearchAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder>
                         .load(item.pic)
                         .transform(new RoundTransformation(MD5.string2MD5(item.pic))
                                 .centerCorp(true)
-                                .override(AutoSizeUtils.mm2px(mContext, ImgUtil.defaultWidth), AutoSizeUtils.mm2px(mContext, ImgUtil.defaultHeight))
+                                .override(AutoSizeUtils.mm2px(mContext, 300), AutoSizeUtils.mm2px(mContext, 400))
                                 .roundRadius(AutoSizeUtils.mm2px(mContext, 10), RoundTransformation.RoundType.ALL))
                         .placeholder(R.drawable.img_loading_placeholder)
                         .noFade()
-                        .error(ImgUtil.createTextDrawable(item.name))
+                        .error(R.drawable.img_loading_placeholder)
                         .into(ivThumb);
             } else {
-                ivThumb.setImageDrawable(ImgUtil.createTextDrawable(item.name));
+                ivThumb.setImageResource(R.drawable.img_loading_placeholder);
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.github.tvbox.osc.data;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 
@@ -54,7 +53,6 @@ public class AppDataManager {
     };
 
     static final Migration MIGRATION_2_3 = new Migration(2, 3) {
-        @SuppressLint("Range")
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE IF NOT EXISTS `vodRecordTmp` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `vodId` TEXT, `updateTime` INTEGER NOT NULL, `sourceKey` TEXT, `data` BLOB, `dataJson` TEXT, `testMigration` INTEGER NOT NULL)");
