@@ -8,11 +8,10 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Dns;
 
-public class Spider {
+public abstract class Spider {
 
     public static JSONObject empty = new JSONObject();
 
@@ -109,36 +108,7 @@ public class Spider {
         return false;
     }
 
-    /**
-     * 直播list
-     * @return
-     */
-    public String liveContent(String url) {
-        return "";
-    }
-
     public static Dns safeDns() {
         return OkGoHelper.dnsOverHttps;
-    }
-
-    /**
-     * 取消请求tag
-     */
-    public void cancelByTag() {
-
-    }
-
-    /**
-     * 销毁
-     */
-    public void destroy() {}
-
-    /**
-     * 爬虫代理
-     * @param params
-     * @return
-     */
-    public Object[] proxyLocal(Map< String, String > params) {
-        return null;
     }
 }
