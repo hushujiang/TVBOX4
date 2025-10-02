@@ -18,26 +18,14 @@
 -keepattributes LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# 保留XML Pull Parser相关类
--keep class org.kxml2.** { *; }
--keep class org.xmlpull.** { *; }
--dontwarn org.kxml2.**
--dontwarn org.xmlpull.**
-
-# XStream核心保留（补充）
--keep class com.thoughtworks.xstream.io.xml.** { *; }
-
--keepattributes Signature, *Annotation*, EnclosingMethod
--keep class com.thoughtworks.xstream.converters.extended.SubjectConverter { *; }
--keep class com.thoughtworks.xstream.converters.extended.ThrowableConverter { *; }
--keep class com.thoughtworks.xstream.converters.extended.StackTraceElementConverter { *; }
--keep class com.thoughtworks.xstream.converters.extended.CurrencyConverter { *; }
--keep class com.thoughtworks.xstream.converters.extended.RegexPatternConverter { *; }
--keep class com.thoughtworks.xstream.converters.extended.CharsetConverter { *; }
-
 # 重新包装所有重命名的包并放在给定的单一包中
 -flattenpackagehierarchy androidx.base
 
+# 将包里的类混淆成n个再重新打包到一个统一的package中  会覆盖flattenpackagehierarchy选项
+-repackageclasses androidx.base
+
+# 把混淆类中的方法名也混淆了
+-useuniqueclassmembernames
 #############################################
 #
 # Android开发中一些需要保留的公共部分
@@ -69,6 +57,7 @@
 -dontwarn androidx.**
 -keep class androidx.** { *; }
 -keep interface androidx.** { *; }
+#-keep public class * extends androidx.**
 
 -keep class org.xmlpull.v1.** {*;}
 
@@ -134,7 +123,6 @@
     void *(**On*Event);
     void *(**On*Listener);
 }
-
 #xwalk
 -keep class org.xwalk.core.** { *; }
 -keep class org.crosswalk.engine.** { *; }
@@ -142,39 +130,48 @@
 -dontwarn android.view.**
 -dontwarn android.media.**
 -dontwarn org.chromium.**
-
 #okhttp
 -dontwarn okhttp3.**
 -keep class okhttp3.**{*;}
-
 #okio
 -dontwarn okio.**
 -keep class okio.**{*;}
-
 #loadsir
 -dontwarn com.kingja.loadsir.**
 -keep class com.kingja.loadsir.** {*;}
-
 #gson
+# Gson specific classes
 -dontwarn sun.misc.**
+#-keep class com.google.gson.stream.** { *; }
+# Application classes that will be serialized/deserialized over Gson
 -keep class com.google.gson.examples.android.model.** { <fields>; }
+# Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
+# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
 -keep class * extends com.google.gson.TypeAdapter
 -keep class * implements com.google.gson.TypeAdapterFactory
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
+# Prevent R8 from leaving Data object members always null
 -keepclassmembers,allowobfuscation class * {
   @com.google.gson.annotations.SerializedName <fields>;
 }
-
+#xstream
+-keep class com.thoughtworks.xstream.converters.extended.SubjectConverter { *; }
+-keep class com.thoughtworks.xstream.converters.extended.ThrowableConverter { *; }
+-keep class com.thoughtworks.xstream.converters.extended.StackTraceElementConverter { *; }
+-keep class com.thoughtworks.xstream.converters.extended.CurrencyConverter { *; }
+-keep class com.thoughtworks.xstream.converters.extended.RegexPatternConverter { *; }
+-keep class com.thoughtworks.xstream.converters.extended.CharsetConverter { *; }
+-keep class com.thoughtworks.xstream.** { *; }
 #eventbus
 -keepclassmembers class * {
     @org.greenrobot.eventbus.Subscribe <methods>;
 }
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
+# And if you use AsyncExecutor:
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
-
 #bugly
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
@@ -194,33 +191,36 @@
 
 # 实体类
 #-keep class com.github.tvbox.osc.bean.** { *; }
-
 #CardView
 -keep class com.github.tvbox.osc.ui.tv.widget.card.**{*;}
-
 #ViewObj
 -keep class com.github.tvbox.osc.ui.tv.widget.ViewObj{
     <methods>;
 }
 
 -keep class com.github.catvod.crawler.*{*;}
-
 # 迅雷下载模块
 -keep class com.xunlei.downloadlib.** {*;}
-
 # quickjs引擎
--keep class com.github.tvbox.quickjs.** {*;}
-
+#-keep class com.github.tvbox.quickjs.** {*;}
+-keep class com.whl.quickjs.** {*;}
 # 支持影视的ali相关的jar
 -keep class com.google.gson.**{*;}
-
 # Zxing
 -keep class com.google.zxing.**{*;}
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
-
 # Cronet支持http3
 -keep class com.google.net.cronet.**{*;}
 -keep class org.chromium.net.**{*;}
+
+# Nano
+-keep class fi.iki.elonen.** { *; }
+
+# Python支持
+#-keep public class com.undcover.freedom.pyramid.** { *; }
+#-dontwarn com.undcover.freedom.pyramid.**
+#-keep public class com.chaquo.python.** { *; }
+#-dontwarn com.chaquo.python.**

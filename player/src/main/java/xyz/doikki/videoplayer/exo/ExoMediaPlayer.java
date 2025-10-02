@@ -2,8 +2,11 @@ package xyz.doikki.videoplayer.exo;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -24,8 +27,13 @@ import com.google.android.exoplayer2.util.Clock;
 import com.google.android.exoplayer2.util.EventLogger;
 import com.google.android.exoplayer2.video.VideoSize;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Map;
 
+import okhttp3.Dns;
+import okhttp3.OkHttpClient;
 import xyz.doikki.videoplayer.player.AbstractPlayer;
 import xyz.doikki.videoplayer.player.VideoViewManager;
 import xyz.doikki.videoplayer.util.PlayerUtils;
@@ -43,7 +51,11 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener {
 
     private LoadControl mLoadControl;
     private RenderersFactory mRenderersFactory;
-    private TrackSelector mTrackSelector;
+    protected TrackSelector mTrackSelector;
+
+    protected DefaultTrackSelector trackSelector;
+
+    protected String currentPlayPath;
 
     public ExoMediaPlayer(Context context) {
         mAppContext = context.getApplicationContext();
@@ -54,7 +66,8 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener {
     public void initPlayer() {
         mInternalPlayer = new SimpleExoPlayer.Builder(
                 mAppContext,
-                mRenderersFactory == null ? mRenderersFactory = new DefaultRenderersFactory(mAppContext) : mRenderersFactory,
+                mRenderersFactory == null ? mRenderersFactory = new DefaultRenderersFactory(mAppContext).setEnableDecoderFallback(true)  // 启用解码器回退，避免硬件加速问题
+                        .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER) : mRenderersFactory,
                 mTrackSelector == null ? mTrackSelector = new DefaultTrackSelector(mAppContext) : mTrackSelector,
                 new DefaultMediaSourceFactory(mAppContext),
                 mLoadControl == null ? mLoadControl = new DefaultLoadControl() : mLoadControl,
@@ -63,11 +76,11 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener {
                 .build();
         setOptions();
 
-        //播放器日志
+        // 播放器日志（当开启日志且 mTrackSelector 为 MappingTrackSelector 时）
         if (VideoViewManager.getConfig().mIsEnableLog && mTrackSelector instanceof MappingTrackSelector) {
             mInternalPlayer.addAnalyticsListener(new EventLogger((MappingTrackSelector) mTrackSelector, "ExoPlayer"));
         }
-
+        if(trackSelector == null)trackSelector=(DefaultTrackSelector)mTrackSelector;
         mInternalPlayer.addListener(this);
     }
 
@@ -85,12 +98,14 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener {
 
     @Override
     public void setDataSource(String path, Map<String, String> headers) {
+        Log.i("Tvbox-runtime","echo-setDataSource:"+path);
+        currentPlayPath = path;
         mMediaSource = mMediaSourceHelper.getMediaSource(path, headers);
     }
 
     @Override
     public void setDataSource(AssetFileDescriptor fd) {
-        //no support
+        // 不支持AssetFileDescriptor方式
     }
 
     @Override
@@ -167,7 +182,6 @@ public class ExoMediaPlayer extends AbstractPlayer implements Player.Listener {
             mInternalPlayer.release();
             mInternalPlayer = null;
         }
-
         mIsPreparing = false;
         mSpeedPlaybackParameters = null;
     }

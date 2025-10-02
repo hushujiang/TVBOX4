@@ -27,6 +27,7 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.Map;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 public final class ExoMediaSourceHelper {
@@ -123,11 +124,19 @@ public final class ExoMediaSourceHelper {
 
     private Cache newCache() {
         return new SimpleCache(
-                new File(mAppContext.getExternalCacheDir(), "exo-video-cache"),//缓存目录
+                new File(externalCacheDir(), "exo-video-cache"),//缓存目录
                 new LeastRecentlyUsedCacheEvictor(512 * 1024 * 1024),//缓存大小，默认512M，使用LRU算法实现
                 new ExoDatabaseProvider(mAppContext));
     }
 
+    private File externalCacheDir()
+    {
+        File externalCacheDir = mAppContext.getExternalCacheDir();
+        if (externalCacheDir == null){
+            externalCacheDir = mAppContext.getCacheDir();
+        }
+        return externalCacheDir;
+    }
     /**
      * Returns a new DataSource factory.
      *
@@ -144,7 +153,7 @@ public final class ExoMediaSourceHelper {
      */
     private DataSource.Factory getHttpDataSourceFactory() {
         if (mHttpDataSourceFactory == null) {
-            mHttpDataSourceFactory = new OkHttpDataSource.Factory(mOkClient)
+            mHttpDataSourceFactory = new OkHttpDataSource.Factory((Call.Factory) mOkClient)
                     .setUserAgent(mUserAgent)/*
                     .setAllowCrossProtocolRedirects(true)*/;
         }
