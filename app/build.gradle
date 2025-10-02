@@ -1,116 +1,85 @@
-apply plugin: 'com.android.application'
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android' version '1.8.20'  // 添加Kotlin支持
+}
 
 android {
-    compileSdkVersion 33
-
+    compileSdkVersion 34  // 升级至最新SDK
+    buildToolsVersion "34.0.0"
+    
     defaultConfig {
         applicationId 'com.github.tvbox.osc'
-        minSdkVersion 16
-        targetSdkVersion 33
+        minSdkVersion 21  // 提升最低版本要求
+        targetSdkVersion 34
         versionCode 1
         versionName '1.0.0'
+        
+        // 多Dex配置优化
         multiDexEnabled true
-        //设置room的Schema的位置
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
-        }
-    }
-
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
+        multiDexKeepFile file('multidex-config.txt')
+        
+        // 启用R8全模式优化
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 
+                     'proguard-rules.pro',
+                     'consumer-rules.pro'
     }
 
     buildTypes {
         debug {
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
-
-            ndk {
-                abiFilters 'armeabi-v7a'
-            }
+            debuggable true
+            ndk { abiFilters 'armeabi-v7a', 'arm64-v8a' }
         }
         release {
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled true
-
-            ndk {
-                abiFilters 'armeabi-v7a'
-            }
+            shrinkResources true
+            ndk { abiFilters 'armeabi-v7a', 'arm64-v8a' }
+            signingConfig signingConfigs.debug  // 建议配置正式签名
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        coreLibraryDesugaringEnabled true  // 启用Java8+ API脱糖
+        sourceCompatibility JavaVersion.VERSION_17  // 升级JDK版本
+        targetCompatibility JavaVersion.VERSION_17
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
+    kotlinOptions {
+        jvmTarget = '17'
     }
-    dexOptions {
-        javaMaxHeapSize "4g"
-        additionalParameters += '--multi-dex'
-        additionalParameters += '--set-max-idx-number=48000'
-        additionalParameters += '--minimal-main-dex'
+
+    packagingOptions {
+        exclude 'META-INF/**'
+        exclude 'kotlin/**'
+        resources.excludes += 'DebugProbesKt.bin'
     }
 }
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
 dependencies {
-    api fileTree(dir: "libs", include: ["*.jar"])
-
-
-    implementation 'org.nanohttpd:nanohttpd:2.3.1'
-    implementation 'com.google.zxing:core:3.3.0'
+    // 基础库统一版本管理
+    def lifecycle_version = "2.6.2"
+    def nav_version = "2.7.4"
+    
+    // 核心依赖
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation files('libs/thunder.jar')
-    implementation files('libs/commons-lang3-3.12.0.jar')
-
-
-    implementation 'com.squareup.okhttp3:okhttp:3.12.11'
-    annotationProcessor 'androidx.room:room-compiler:2.3.0'
-    implementation 'androidx.room:room-runtime:2.3.0'
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.squareup.okio:okio:2.8.0'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45-androidx'
-    implementation 'com.kingja.loadsir:loadsir:1.3.8'
-    implementation 'com.google.code.gson:gson:2.8.7'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'me.jessyan:autosize:1.2.1'
-    implementation('com.thoughtworks.xstream:xstream:1.4.15') {
-        exclude group: 'xmlpull', module: 'xmlpull'
+    implementation 'com.google.android.material:material:1.10.0'
+    
+    // 架构组件
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    
+    // 第三方库优化
+    implementation('org.nanohttpd:nanohttpd:2.3.1') {
+        exclude group: 'org.slf4j'  // 排除冲突日志框架
     }
-    implementation 'org.greenrobot:eventbus:3.2.0'
-    implementation 'com.orhanobut:hawk:2.0.1'
-
-    implementation project(":player")
-    implementation project(":quickjs")
-
-//    implementation('org.xwalk:xwalk_shared_library:23.53.589.4') {
-//        exclude group: 'com.android.support'
-//    }
-    implementation 'com.lzy.net:okgo:3.0.4'
-    // implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
-    implementation 'com.owen:tv-recyclerview:3.0.0'
-
-    implementation 'com.github.getActivity:XXPermissions:13.6'
-    implementation 'org.jsoup:jsoup:1.14.1'
-    implementation 'com.github.hedzr:android-file-chooser:v1.2.0-final'
-    implementation 'commons-io:commons-io:2.11.0'
-    implementation 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
-    implementation(name:'xwalk_shared_library-23.53.589.4',ext:'aar')
-    //支持http3
-    implementation ('com.google.net.cronet:cronet-okhttp:0.1.0')
-//    implementation 'com.google.android.gms:play-services-cronet:18.0.1'
-    implementation ('org.chromium.net:cronet-embedded:101.4951.41')
+    implementation 'com.google.zxing:core:3.5.2'  // 升级二维码库
+    
+    // 性能工具
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
+    
+    // 本地库
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
