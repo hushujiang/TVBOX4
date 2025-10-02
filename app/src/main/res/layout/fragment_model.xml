@@ -20,7 +20,6 @@
                 android:clipToPadding="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:layout_marginTop="@dimen/vs_10"
                 android:orientation="vertical">
 
             <LinearLayout
@@ -68,18 +67,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/vs_60"
-                android:layout_marginBottom="@dimen/vs_10"
-                android:focusable="false"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:id="@+id/llApi"
-                    android:layout_width="@dimen/vs_0"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/vs_5"
-                    android:layout_marginRight="@dimen/vs_5"
-                    android:layout_weight="3.08"
+                    android:id="@+id/llHomeApi"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/vs_60"
+                    android:layout_marginBottom="@dimen/vs_10"
                     android:background="@drawable/shape_setting_model_focus"
                     android:focusable="true"
                     android:gravity="center_vertical"
@@ -87,70 +78,28 @@
                     android:paddingLeft="@dimen/vs_20"
                     android:paddingRight="@dimen/vs_20">
 
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="配置地址"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_24" />
-
-                    <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                    <TextView
-                            android:id="@+id/tvApi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="middle"
-                            android:singleLine="true"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_24" />
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/vs_10"
-                            android:layout_marginLeft="@dimen/vs_10"
-                            android:text=">"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_30" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/llApiHistory"
-                    android:layout_width="@dimen/vs_0"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/vs_5"
-                    android:layout_marginLeft="@dimen/vs_5"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_setting_model_focus"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/vs_20"
-                    android:paddingRight="@dimen/vs_20">
-
-                    <TextView
+                <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="配置历史"
+                        android:text="首页数据源"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/ts_24" />
 
-                    <Space
+                <Space
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
-                    <TextView
-                        android:id="@+id/tvMediaCodec1"
+                <TextView
+                        android:id="@+id/tvHomeApi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="middle"
+                        android:singleLine="true"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/ts_24" />
 
-                    <TextView
+                <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/vs_10"
@@ -158,22 +107,13 @@
                         android:text=">"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/ts_30" />
-                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/vs_60"
-                android:layout_marginBottom="@dimen/vs_10"
-                android:focusable="false"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:id="@+id/llHomeApi"
-                    android:layout_width="@dimen/vs_0"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/vs_5"
-                    android:layout_marginRight="@dimen/vs_5"
-                    android:layout_weight="3.08"
+                    android:id="@+id/llApi"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/vs_60"
+                    android:layout_marginBottom="@dimen/vs_10"
                     android:background="@drawable/shape_setting_model_focus"
                     android:focusable="true"
                     android:gravity="center_vertical"
@@ -181,71 +121,28 @@
                     android:paddingLeft="@dimen/vs_20"
                     android:paddingRight="@dimen/vs_20">
 
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="首页站源"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_24" />
-
-                    <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                    <TextView
-                            android:id="@+id/tvHomeApi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="middle"
-                            android:singleLine="true"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_24" />
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/vs_10"
-                            android:layout_marginLeft="@dimen/vs_10"
-                            android:text=">"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_30" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/tvHomeLive"
-                    android:layout_width="@dimen/vs_0"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/vs_5"
-                    android:layout_marginLeft="@dimen/vs_5"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_setting_model_focus"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/vs_20"
-                    android:paddingRight="@dimen/vs_20">
-
-                    <TextView
+                <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="下次进入"
+                        android:text="配置地址"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/ts_24" />
 
-                    <Space
+                <Space
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
-                    <TextView
-                        android:id="@+id/tvHomeText"
+                <TextView
+                        android:id="@+id/tvApi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="middle"
+                        android:singleLine="true"
                         android:textColor="@android:color/white"
-                        android:text="点播"
                         android:textSize="@dimen/ts_24" />
 
-                    <TextView
+                <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/vs_10"
@@ -253,7 +150,6 @@
                         android:text=">"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/ts_30" />
-                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -429,7 +325,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="聚合搜索"
+                            android:text="聚合模式"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/ts_24" />
 
@@ -508,59 +404,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="@dimen/vs_0"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/vs_5"
-                    android:layout_marginLeft="@dimen/vs_5"
-                    android:layout_weight="1"
-                    android:focusable="false"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
                         android:id="@+id/llMediaCodec"
-                        android:layout_width="@dimen/vs_0"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/vs_5"
-                        android:layout_marginRight="@dimen/vs_5"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_setting_model_focus"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="@dimen/vs_20"
-                        android:paddingRight="@dimen/vs_20">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="IJK解码方式"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_24" />
-
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tvMediaCodec"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_24" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/vs_10"
-                            android:layout_marginLeft="@dimen/vs_10"
-                            android:text=">"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_30" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/m3u8Ad"
                         android:layout_width="@dimen/vs_0"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/vs_5"
@@ -573,26 +417,26 @@
                         android:paddingLeft="@dimen/vs_20"
                         android:paddingRight="@dimen/vs_20">
 
-                        <TextView
+                    <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="去广告"
+                            android:text="IJK解码方式"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/ts_24" />
 
-                        <Space
+                    <Space
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" />
 
-                        <TextView
-                            android:id="@+id/m3u8AdText"
+                    <TextView
+                            android:id="@+id/tvMediaCodec"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/ts_24" />
 
-                        <TextView
+                    <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/vs_10"
@@ -600,7 +444,6 @@
                             android:text=">"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/ts_30" />
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -1166,7 +1009,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="数据备份"
+                            android:text="数据备份还原"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/ts_24" />
 
